@@ -56,3 +56,15 @@ class Favourite(db.Model):
 
     user    = db.relationship('User',    back_populates='favourites')
     profile = db.relationship('Profile', back_populates='favourites')
+
+class Message(db.Model):
+    __tablename__ = 'messages'
+
+    id            = db.Column(db.Integer, primary_key=True)
+    sender_id     = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    recipient_id  = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    content       = db.Column(db.String(2000), nullable=False)
+    timestamp     = db.Column(db.DateTime, default=datetime.utcnow)
+
+    sender        = db.relationship('User', foreign_keys=[sender_id], backref='sent_messages')
+    recipient     = db.relationship('User', foreign_keys=[recipient_id], backref='received_messages')

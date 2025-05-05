@@ -1,3 +1,4 @@
+<!-- src/views/Login.vue -->
 <template>
   <div class="login container">
     <h2>Login</h2>
@@ -11,18 +12,24 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import api from '@/services/api'
 
 const router = useRouter()
+const route  = useRoute()
 const username = ref('')
 const password = ref('')
 
 async function login() {
   try {
-    const { data } = await api.post('/auth/login', { username: username.value, password: password.value })
+    const { data } = await api.post('/auth/login', {
+      username: username.value,
+      password: password.value
+    })
     localStorage.setItem('jwt', data.access_token)
-    router.push('/')
+    localStorage.setItem('user_id', data.user_id)      // store your user ID
+    const redirect = route.query.redirect || '/'
+    router.push(redirect)
   } catch (e) {
     console.error('Login error:', e)
   }

@@ -1,0 +1,8 @@
+{
+    // …any existing settings…
+    "python.analysis.extraPaths": [
+      "./app",
+      "./"
+    ]
+  }
+  

@@ -34,6 +34,13 @@ def create_app():
     app.register_blueprint(auth_bp)      # /api/register, /api/auth/login, etc.
     app.register_blueprint(profiles_bp)  # /api/profiles, etc.
 
+    # register users blueprint for favourites reports
+    from .users import users_bp
+    app.register_blueprint(users_bp)
+
+    from .messages import messages_bp
+    app.register_blueprint(messages_bp)
+
     # serve uploaded files
     @app.route("/uploads/<filename>")
     def uploaded_file(filename):
